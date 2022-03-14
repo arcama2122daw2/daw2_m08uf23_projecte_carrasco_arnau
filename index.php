@@ -10,6 +10,6 @@
 		<h3> Autor: arcama2122daw2</h3>
 		<h3> Correu: arcama2122daw2@protonmail.com</h3>
 		<h3> Github: https://github.com/arcama2122daw2/daw2_m08uf23_projecte_carrasco_arnau.git</h3>
-		<a href="http://zend-arcama.fjeclot.net/autent/login.php">Inicia sessió</a>
+		<a href="http://zend-arcama.fjeclot.net/projecte_ldap/login.php">Inicia sessió</a>
 	</body>
 </html>
