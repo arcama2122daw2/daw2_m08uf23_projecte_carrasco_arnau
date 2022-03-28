@@ -1,54 +1,28 @@
-<?php
-    require 'vendor/autoload.php';
-    use Laminas\Ldap\Attribute;
-    	use Laminas\Ldap\Ldap;
-    
-    	ini_set('display_errors', 0);
-    	#Dades de la nova entrada
-    	#
-    	$uid='usr3';
-    	$unorg='usuaris';
-    	$num_id=7000;
-    	$grup=100;
-    	$dir_pers='/home/usr3';
-    	$sh='/bin/bash';
-    	$cn="nomis aletse";
-    	$sn='nomis';
-    	$nom='aletse';
-    	$mobil='666778899';
-    	$adressa='C/Pi,27,1-1';
-    	$telefon='934445566';
-    	$titol='analista';
-    	$descripcio='analista de sistemes';
-    	$objcl=array('inetOrgPerson','organizationalPerson','person','posixAccount','shadowAccount','top');
-    	#
-    	#Afegint la nova entrada
-    	$domini = 'dc=fjeclot,dc=net';
-    	$opcions = [
-            'host' => 'zend-arcama.fjeclot.net',
-    		'username' => "cn=admin,$domini",
-       		'password' => 'fjeclot',
-       		'bindRequiresDn' => true,
-    		'accountDomainName' => 'fjeclot.net',
-       		'baseDn' => 'dc=fjeclot,dc=net',
-    ];	
-    	$ldap = new Ldap($opcions);
-    	$ldap->bind();
-    	$nova_entrada = [];
-    	Attribute::setAttribute($nova_entrada, 'objectClass', $objcl);
-    	Attribute::setAttribute($nova_entrada, 'uid', $uid);
-    	Attribute::setAttribute($nova_entrada, 'uidNumber', $num_id);
-    	Attribute::setAttribute($nova_entrada, 'gidNumber', $grup);
-    	Attribute::setAttribute($nova_entrada, 'homeDirectory', $dir_pers);
-    	Attribute::setAttribute($nova_entrada, 'loginShell', $sh);
-    	Attribute::setAttribute($nova_entrada, 'cn', $cn);
-    	Attribute::setAttribute($nova_entrada, 'sn', $sn);
-    	Attribute::setAttribute($nova_entrada, 'givenName', $nom);
-    	Attribute::setAttribute($nova_entrada, 'mobile', $mobil);
-    	Attribute::setAttribute($nova_entrada, 'postalAddress', $adressa);
-    	Attribute::setAttribute($nova_entrada, 'telephoneNumber', $telefon);
-    	Attribute::setAttribute($nova_entrada, 'title', $titol);
-    	Attribute::setAttribute($nova_entrada, 'description', $descripcio);
-    	$dn = 'uid='.$uid.',ou='.$unorg.',dc=fjeclot,dc=net';
-	    if($ldap->add($dn, $nova_entrada)) echo "Usuari creat";	
-?>
+<html>
+	<head>
+		<title>
+			CREACIO USUARIS
+		</title>
+	</head>
+	<body>
+		<form action="http://zend-arcama.fjeclot.net/projecte_ldap/Crear.php" method="POST">
+			UID: <input type="text" name="uid"><br>
+			Unitat organitzativa: <input type="password" name="unorg"><br>
+			UIDnumber: <input type="text" name="num_id"><br>
+			GIDnumber: <input type="text" name="grup"><br>
+			Directori personal: <input type="text" name="dir_pers"><br>
+			Shell: <input type="text" name="sh"><br>
+			CN: <input type="text" name="cn"><br>
+			SN: <input type="text" name="sn"><br>
+			Given name: <input type="text" name="nom"><br>
+			Movil: <input type="text" name="movil"><br>
+			Postal adress: <input type="text" name="adressa"><br>
+			Telefhone number: <input type="text" name="telefon"><br>
+			Title: <input type="text" name="titol"><br>
+			Description: <input type="text" name="descripcio"><br>
+			<input type="submit" value="Envia" />
+			<input type="reset" value="Neteja" />
+		</form>
+		<a href="http://zend-arcama.fjeclot.net/projecte_ldap/menu.php">Torna al menu</a>
+	</body>
+</html>
