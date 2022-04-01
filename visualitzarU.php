@@ -5,7 +5,7 @@
 	ini_set('display_errors', 0);
 	
 	#Visualitzar usuari
-	if ($_GET['uid'] && $_GET['unitat_organitzativa']){
+	if ($_GET['uid'] && $_GET['ou']){
 	    $domini = 'dc=fjeclot,dc=net';
 	    $opcions = [
 	        'host' => 'zend-arcama.fjeclot.net',
@@ -17,11 +17,13 @@
 	    ];
 	    $ldap = new Ldap($opcions);
 	    $ldap->bind();
-	    $entrada='uid='.$_GET['uid'].',unitat_organitzativa='.$_GET['unitat_organitzativa'].',dc=fjeclot,dc=net';
+	    $entrada='uid='.$_GET['uid'].',ou='.$_GET['ou'].',dc=fjeclot,dc=net';
 	    $usuari=$ldap->getEntry($entrada);
 	    echo "<b><u>".$usuari["dn"]."</b></u><br>";
 	    foreach ($usuari as $atribut => $dada) {
-	        if ($atribut != "dn") echo $atribut.": ".$dada[0].'<br>';
+	        if ($atribut != "dn") {
+	            echo $atribut.": ".$dada[0].'<br>';
+	        }
 	    }
 	}
 	
@@ -36,7 +38,7 @@
 	<h1>VISUALITZAR USUARI</h1>
 		<form action="http://zend-arcama.fjeclot.net/projecte_ldap/visualitzarU.php" method="GET">
 			Identificador(uid): <input type="text" name="uid"><br>
-			Unitat organitzativa: <input type="text" name="unitat_organitzativa"><br>
+			Unitat organitzativa: <input type="text" name="ou"><br>
 			<input type="submit" value="Envia" />
 			<input type="reset" value="Neteja" />
 		</form>

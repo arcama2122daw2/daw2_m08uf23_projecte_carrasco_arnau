@@ -1,22 +1,22 @@
 <?php
-    require 'vendor/autoload.php';
-    use Laminas\Ldap\Attribute;
-    	use Laminas\Ldap\Ldap;
-    
+require 'vendor/autoload.php';
+use Laminas\Ldap\Attribute;
+    use Laminas\Ldap\Ldap;
+        
     	ini_set('display_errors', 0);
     	
     	#Afegint la nova entrada
     	if (
-    	    $_POST['uid'] && $_POST['unitat_organitzativa'] && $_POST['uidNumber'] && $_POST['gidNumber'] && $_POST['directori_personal'] && $_POST['shell']
+    	    $_POST['uid'] && $_POST['ou'] && $_POST['uidNumber'] && $_POST['gidNumber'] && $_POST['homeDirectory'] && $_POST['loginShell']
     	    && $_POST['cn'] && $_POST['sn'] && $_POST['givenName'] && $_POST['postalAdress'] && $_POST['mobile'] && $_POST['telephoneNumber']
     	    && $_POST['title'] && $_POST['description']
     	) {
         	$uid = '' . $_POST['uid'];
-        	$unitat_organitzativa = '' . $_POST['unitat_organitzativa'];
+        	$ou = '' . $_POST['ou'];
         	$uidNumber = $_POST['uidNumber'];
         	$gidNumber = $_POST['gidNumber'];
-        	$directori_personal = '' . $_POST['directori_personal'];
-            $shell = '' . $_POST['shell'];
+        	$homeDirectory = '' . $_POST['homeDirectory'];
+            $shell = '' . $_POST['loginShell'];
         	$cn = '' . $_POST['cn'];
         	$sn = '' . $_POST['sn'];
         	$givenName = '' . $_POST['givenName'];
@@ -25,11 +25,12 @@
         	$telephoneNumber = '' . $_POST['telephoneNumber'];
         	$title = '' . $_POST['title'];
         	$description = '' . $_POST['description'];
+        	$objcl = array('inetOrgPerson', 'organizationalPerson', 'person', 'posixAccount', 'shadowAccount', 'top');
         
     	$domini = 'dc=fjeclot,dc=net';
     	$opcions = [
             'host' => 'zend-arcama.fjeclot.net',
-    		'username' => "cn=admin,$domini",
+    	    'username' => "cn=admin,dc=fjeclot,dc=net",
        		'password' => 'fjeclot',
        		'bindRequiresDn' => true,
     		'accountDomainName' => 'fjeclot.net',
@@ -38,40 +39,43 @@
     	$ldap = new Ldap($opcions);
     	$ldap->bind();
     	$nova_entrada = [];
+    	Attribute::setAttribute($nova_entrada, 'objectClass', $objcl);
     	Attribute::setAttribute($nova_entrada, 'uid', $uid);
-    	Attribute::setAttribute($nova_entrada, 'unitat_organitzativa', $unitat_organitzativa);
+    	Attribute::setAttribute($nova_entrada, 'ou', $ou);
     	Attribute::setAttribute($nova_entrada, 'uidNumber', $uidNumber);
     	Attribute::setAttribute($nova_entrada, 'gidNumber', $gidNumber);
-    	Attribute::setAttribute($nova_entrada, 'directori_personal', $directori_personal);
-    	Attribute::setAttribute($nova_entrada, 'shell', $shell);
+        Attribute::setAttribute($nova_entrada, 'homeDirectory', $homeDirectory);
+    	Attribute::setAttribute($nova_entrada, 'loginShell', $shell);
     	Attribute::setAttribute($nova_entrada, 'cn', $cn);
     	Attribute::setAttribute($nova_entrada, 'sn', $sn);
     	Attribute::setAttribute($nova_entrada, 'givenName', $givenName);
     	Attribute::setAttribute($nova_entrada, 'mobile', $mobile);
-    	Attribute::setAttribute($nova_entrada, 'postalAdress', $postalAdress);
+    	Attribute::setAttribute($nova_entrada, 'postalAddress', $postalAdress);
     	Attribute::setAttribute($nova_entrada, 'telephoneNumber', $telephoneNumber);
     	Attribute::setAttribute($nova_entrada, 'title', $title);
     	Attribute::setAttribute($nova_entrada, 'description', $description);
-    	$dn = 'uid='.$uid.',unitat_organitzativa='.$unitat_organitzativa.',dc=fjeclot,dc=net';
-	    if($ldap->add($dn, $nova_entrada)) echo "Usuari creat";	
+    	$dn = 'uid=' . $uid . ',ou=' . $ou . ',dc=fjeclot,dc=net';
+	    if($ldap->add($dn, $nova_entrada)) {
+	        echo "Usuari creat";
+	    }
     }
-    	
+    
 ?>
 <html>
 	<head>
 		<title>
-			CREACIO USUARIS
+			CREACIO USUARI
 		</title>
 	</head>
 	<body>
 	<h1>CREACIO USUARI</h1>
-		<form action="http://zend-arcama.fjeclot.net/projecte_ldap/crearU.php" method="POST">
+		<form action="http://zend-arcama.fjeclot.net/projecte_ldap/crearU.php" method="POST" autocomplete="off">
 			UID: <input type="text" name="uid" required ><br>
-			Unitat organitzativa: <input type="text" name="unitat_organitzativa" required ><br>
+			Unitat organitzativa: <input type="text" name="ou" required ><br>
 			UIDnumber: <input type="text" name="uidNumber" required ><br>
 			GIDnumber: <input type="text" name="gidNumber" required ><br>
-			Directori personal: <input type="text" name="directori_personal" required ><br>
-			Shell: <input type="text" name="shell" required ><br>
+			Directori personal: <input type="text" name="homeDirectory" required ><br>
+			Shell: <input type="text" name="loginShell" required ><br>
 			CN: <input type="text" name="cn" required ><br>
 			SN: <input type="text" name="sn" required ><br>
 			Given name: <input type="text" name="givenName" required ><br>
