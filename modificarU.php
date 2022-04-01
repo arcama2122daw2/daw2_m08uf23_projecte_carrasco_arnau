@@ -49,16 +49,6 @@ use Laminas\Ldap\Ldap;
       <input type="text" name="unorg" placeholder="Unitat Organitzativa" required /><br><br>
       <input type="radio" name="radioValue" value="uidNumber" />uidNumber<br>
       <input type="radio" name="radioValue" value="gidNumber" />gidNumber<br>
-      <input type="radio" name="radioValue" value="homeDirectory" />homeDirectory<br>
-      <input type="radio" name="radioValue" value="loginShell" />loginShell<br>
-      <input type="radio" name="radioValue" value="cn" />cn<br>
-      <input type="radio" name="radioValue" value="sn" />sn<br>
-      <input type="radio" name="radioValue" value="givenName" />givenName<br>
-      <input type="radio" name="radioValue" value="postalAddress" />postalAddress<br>
-      <input type="radio" name="radioValue" value="mobile" />mobile<br>
-      <input type="radio" name="radioValue" value="telephoneNumber" />telephoneNumber<br>
-      <input type="radio" name="radioValue" value="title" />title<br>
-      <input type="radio" name="radioValue" value="description" />description<br><br>
        <input type="text" name="nouContingut" placeholder="Introduce el nuevo contenido" required /><br>
        <input type="submit" class="button" value="Modificar Usuari" /><br>
       </form>
